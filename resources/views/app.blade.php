@@ -16,6 +16,15 @@
     @vite(['resources/js/app.ts', "resources/js/Pages/{$page['component']}.vue"])
     @inertiaHead
 </head>
+<script>
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.classList.add('dark')
+        } else {
+            document.documentElement.classList.remove('dark')
+        }
+    });
+</script>
 <body class="font-sans antialiased">
 @inertia
 </body>

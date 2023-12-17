@@ -2,18 +2,19 @@
 import GuestLayout from "@/Layouts/GuestLayout.vue";
 import { Head, router } from "@inertiajs/vue3";
 import axios from "axios";
-import { TelegramLoginData } from "@/types";
+import { AuthResponse, TelegramUser } from "@/types";
 import TelegramLoginWidget from "@/Components/TelegramLoginWidget.vue";
+import { useMutation } from "@tanstack/vue-query";
 
-const submitTelegramLogin = (user: TelegramLoginData) => {
-    // TODO: Rework to use VueQuery
-    axios.post("/login", user).then((response) => {
-        if (response.data.status === "success") {
-            router.visit(response.data.url);
-        } else {
-            // notify(response.data.message);
-        }
-    });
+const { mutate } = useMutation({
+    mutationFn: (user: TelegramUser) => axios.post("/login", user),
+    onSuccess: (res: { data: AuthResponse }) => {
+        router.visit(res.data.url);
+    },
+});
+
+const submitTelegramLogin = (user: TelegramUser) => {
+    mutate(user);
 };
 </script>
 

@@ -4,7 +4,7 @@
 
 <script lang="ts" setup>
 import { onMounted, ref } from "vue";
-import { TelegramLoginData } from "@/types";
+import { TelegramUser } from "@/types";
 
 const props = defineProps({
     mode: {
@@ -49,7 +49,7 @@ const props = defineProps({
 });
 
 const emit = defineEmits(["callback"]);
-const onTelegramAuth = (user: TelegramLoginData) => {
+const onTelegramAuth = (user: TelegramUser) => {
     emit("callback", user);
 };
 

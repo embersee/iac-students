@@ -47,6 +47,7 @@ class TelegramUserController extends Controller
                 'status' => 'success',
                 'statusCode' => 200,
                 'url' => route('dashboard'),
+                'message' => 'Successfully logged in as ' . $user['username']
             ]);
         } catch (Exception $e) {
             Log::error($e);

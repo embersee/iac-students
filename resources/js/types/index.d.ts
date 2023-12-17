@@ -5,7 +5,7 @@ export interface User {
     email_verified_at: string;
 }
 
-export interface TelegramLoginData {
+export interface TelegramUser {
     id: string;
     first_name: string;
     last_name: string;
@@ -13,6 +13,13 @@ export interface TelegramLoginData {
     photo_url: string;
     auth_date: string;
     hash: string;
+}
+
+export interface AuthResponse {
+    status: string;
+    statusCode: number;
+    url: string;
+    message: string;
 }
 
 export type PageProps<
