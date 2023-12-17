@@ -18,7 +18,7 @@ use Inertia\Response;
 class TelegramUserController extends Controller
 {
     /**
-     * Handle an incoming registration request.
+     * Handle an incoming login request.
      *
      */
     public function store(Request $request): JsonResponse
@@ -45,19 +45,30 @@ class TelegramUserController extends Controller
 
             return response()->json([
                 'status' => 'success',
+                'statusCode' => 200,
                 'url' => route('dashboard'),
             ]);
         } catch (Exception $e) {
-            echo $e;
-            Log::info($e);
+            Log::error($e);
             return response()->json([
-                'status' => 'fail',
+                'status' => 'failed',
+                'statusCode' => 400,
                 'url' => route('/'),
+                'message' => $e
             ]);
         }
 
     }
 
+    /**
+     * Comparing the received hash parameter with the hexadecimal representation of
+     * the HMAC-SHA-256 signature of the data-check-string with the SHA256 hash of
+     * the bots token used as a secret key.
+     *
+     * https://core.telegram.org/widgets/login#widget-configuration
+     *
+     * @throws Exception
+     */
     private function checkTelegramAuthorization($auth_data)
     {
         $check_hash = $auth_data['hash'];
@@ -90,7 +101,7 @@ class TelegramUserController extends Controller
     {
         Auth::logout();
 
-        // Redirect to the landing page or any other desired location
+        // Redirect to the landing page
         return redirect(RouteServiceProvider::LANDING);
     }
 
